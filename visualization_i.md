@@ -183,3 +183,44 @@ weather_df |>
     ## (`geom_point()`).
 
 ![](visualization_i_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+More interesting plot
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name, shape = name)) +
+  geom_point(aes(size = prcp), alpha = .3) +
+  geom_smooth(se = FALSE) +
+  facet_grid(. ~ name)
+```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_smooth()`).
+
+    ## Warning: Removed 19 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+Write a code chain that starts with weather_df; focuses only on Central
+Park, converts temperatures to Fahrenheit, makes a scatterplot of min
+vs. max temperature, and overlays a linear regression line (using
+options in geom_smooth()). ?geom_smooth
+
+``` r
+weather_df |> 
+  filter(name == "CentralPark_NY") |> 
+  mutate(
+    tmax_fahr = tmax * (9/5) + 32,
+    tmin_fahr = tmin * (9/5) + 32
+  ) |> 
+  ggplot(aes(x = tmin_fahr, y = tmax_fahr)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->

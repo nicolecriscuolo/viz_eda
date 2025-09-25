@@ -115,6 +115,125 @@ weather_df |>
   geom_smooth(method = "lm", se = FALSE)
 ```
 
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name, shape = name)) + 
+  # geom_point(alpha = .3) +
+  geom_smooth(se = FALSE)
+```
+
+Order matters.
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name, shape = name)) + 
+  geom_smooth(se = FALSE) +
+  geom_point()
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x= tmin, y = tmax)) +
+  geom_hex() 
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x= tmin, y = tmax)) +
+  geom_point(color = "#086bfd") 
+```
+
+
+```{r}
+weather_df |> 
+  ggplot(aes(x= tmin)) +
+  geom_histogram(color = "white", fill = "red")
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, color = name)) +
+  geom_histogram()
+
+weather_df |> 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_histogram()
+```
+
+Fix this^ by facet
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_histogram() +
+  facet_grid(name ~ .)
+```
+
+Maybe density plot (y axis is percentage of data that is certain value)
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_density(alpha = 0.2)
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = name, y= tmin)) +
+  geom_boxplot(aes(fill = name))
+```
+
+violin plots 
+```{r}
+weather_df |> 
+  ggplot(aes(x = name, y = tmin)) +
+  geom_violin()
+```
+
+Ridge plot
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = name, fill = name)) +
+  geom_density_ridges()
+```
+
+Make plots that compare precipitation across locations. Try a histogram, a density plot, a boxplot, a violin plot, and a ridgeplot; use aesthetic mappings to make your figure readable.
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_density()
+# not good
+
+weather_df |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_histogram() +
+  facet_grid(name ~ .)
+
+weather_df |> 
+  filter(prcp > 5, prcp < 1000) |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_density()
+#zooming in
+```
+
+## Saving plots
+
+```{r}
+ggp_weather_violin =
+  weather_df |> 
+  ggplot(aes(x = name, y = tmin)) +
+  geom_violin()
+
+ggp_weather_violin
+
+ggsave("violin_plot.pdf", ggp_weather_violin,
+       width = 8, height = 6)
+```
+
+embedding plots 
+```{r, fig.width = 6, fig.height = 4}
+ggp_weather_violin
+```
 
 
 

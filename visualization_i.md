@@ -224,3 +224,244 @@ weather_df |>
     ## `geom_smooth()` using formula = 'y ~ x'
 
 ![](visualization_i_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name, shape = name)) + 
+  # geom_point(alpha = .3) +
+  geom_smooth(se = FALSE)
+```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_smooth()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+Order matters.
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name, shape = name)) + 
+  geom_smooth(se = FALSE) +
+  geom_point()
+```
+
+    ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_smooth()`).
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x= tmin, y = tmax)) +
+  geom_hex() 
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_binhex()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x= tmin, y = tmax)) +
+  geom_point(color = "#086bfd") 
+```
+
+    ## Warning: Removed 17 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x= tmin)) +
+  geom_histogram(color = "white", fill = "red")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, color = name)) +
+  geom_histogram()
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_histogram()
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-19-2.png)<!-- -->
+
+Fix this^ by facet
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_histogram() +
+  facet_grid(name ~ .)
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+Maybe density plot (y axis is percentage of data that is certain value)
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, fill = name)) +
+  geom_density(alpha = 0.2)
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+
+``` r
+weather_df |> 
+  ggplot(aes(x = name, y= tmin)) +
+  geom_boxplot(aes(fill = name))
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_boxplot()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+
+violin plots
+
+``` r
+weather_df |> 
+  ggplot(aes(x = name, y = tmin)) +
+  geom_violin()
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_ydensity()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+
+Ridge plot
+
+``` r
+weather_df |> 
+  ggplot(aes(x = tmin, y = name, fill = name)) +
+  geom_density_ridges()
+```
+
+    ## Picking joint bandwidth of 1.41
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_density_ridges()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+
+Make plots that compare precipitation across locations. Try a histogram,
+a density plot, a boxplot, a violin plot, and a ridgeplot; use aesthetic
+mappings to make your figure readable.
+
+``` r
+weather_df |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_density()
+```
+
+    ## Warning: Removed 15 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+
+``` r
+# not good
+
+weather_df |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_histogram() +
+  facet_grid(name ~ .)
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+    ## Warning: Removed 15 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-25-2.png)<!-- -->
+
+``` r
+weather_df |> 
+  filter(prcp > 5, prcp < 1000) |> 
+  ggplot(aes(x = prcp, fill = name)) +
+  geom_density()
+```
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-25-3.png)<!-- -->
+
+``` r
+#zooming in
+```
+
+## Saving plots
+
+``` r
+ggp_weather_violin =
+  weather_df |> 
+  ggplot(aes(x = name, y = tmin)) +
+  geom_violin()
+
+ggp_weather_violin
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_ydensity()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+
+``` r
+ggsave("violin_plot.pdf", ggp_weather_violin,
+       width = 8, height = 6)
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_ydensity()`).
+
+embedding plots
+
+``` r
+ggp_weather_violin
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_ydensity()`).
+
+![](visualization_i_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->

@@ -4,3 +4,90 @@ author: "Nicole Criscuolo"
 date: "2025-09-25"
 output: github_document
 ---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(ggridges)
+library(p8105.datasets)
+```
+ 
+Import weather data.
+```{r}
+data("weather_df")
+```
+
+Making first plot (scatter plot of min temps to max temps) (plus sign is to ggplot as pipes are to tidy data calls)
+```{r}
+ggplot(data = weather_df, mapping = aes(x = tmin, y = tmax)) +
+  geom_point()
+```
+
+Same thing as above
+```{r}
+ggplot(weather_df, aes(x = tmin, y = tmax)) +
+  geom_point()
+```
+
+Also same thing as above
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_point()
+```
+
+```{r}
+ggp_weather_scatterplot =
+  weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) +
+  geom_point()
+
+ggp_weather_scatterplot
+```
+
+How to check some rows are missing
+```{r}
+weather_df |> 
+  filter(is.na(tmax))
+```
+
+## Fancier scatterplots
+
+`alpha` is for opacity ranging from 0-1, closer to 1 is more opaque
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax, color = name)) + 
+  geom_point(alpha = .3) +
+  geom_smooth(se = FALSE)
+```
+
+Where you define aesthetics can matter.
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .3, size = .6) +
+  geom_smooth(se = FALSE)
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name, size = prcp), alpha = .3) +
+  geom_smooth(se = FALSE)
+```
+
+Use faceting (breaks single plot into multiple plots)
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .3, size = 0.8) +
+  geom_smooth(se = FALSE) +
+  facet_grid(. ~ name)
+```
+
+```{r}
+weather_df |> 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .3, size = 0.8) +
+  geom_smooth(se = FALSE) +
+  facet_grid(name ~ .)
+```

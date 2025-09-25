@@ -1,0 +1,6 @@
+---
+title: "Visualization I"
+author: "Nicole Criscuolo"
+date: "2025-09-25"
+output: github_document
+---
